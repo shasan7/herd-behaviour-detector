@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tracker Test</title>
+</head>
+<body>
+  <h1>Fake E-commerce Tracker</h1>
+  <p>Open console (F12) to see logs. Events are being sent...</p>
+
+  <script>
+    (async () => {
+      const productsResp = await fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=200');
+      const products = await productsResp.json();
+
+      function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+      async function sendEvent(eventType, productId){
+        const payload = {
+          event_type: eventType,
+          product_id: productId,
+          user_id: `anon_${Math.floor(Math.random()*100000)}`,
+          timestamp: Date.now() / 1000
+        };
+        try {
+          await fetch('http://127.0.0.1:8000/track', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+          });
+          console.log("Sent:", payload);
+        } catch (e) {
+          console.error("Failed to send event", e);
+        }
+      }
+
+      setInterval(() => {
+        const p = pickRandom(products);
+        sendEvent("view_product", p.id);
+        if (Math.random() < 0.25) sendEvent("add_to_cart", p.id);
+      }, 2000);
+
+    })();
+  </script>
+</body>
+</html>

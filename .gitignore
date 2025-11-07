@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# Node / React
+frontend/node_modules/
+frontend/build/
+*.log
+
+# VSCode & IDEs
+.vscode/
+.idea/
+
+# Docker
+*.pid
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
