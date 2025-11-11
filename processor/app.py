@@ -38,7 +38,7 @@ def process_event(event):
     print(f"[Product {pid}] counts={counts} avg={avg:.2f} stdev={stdev:.2f}")
 
     # anomaly detection
-    if stdev >= THRESHOLD * stdev and current > avg:
+    if stdev >= THRESHOLD * stdev:
         alert = {
             "product_id": pid,
             "current": current,
